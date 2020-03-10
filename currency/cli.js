@@ -5,6 +5,10 @@ const ora = require('ora');
 
 const argv = process.argv.slice(2);
 
+/**
+ * Demo which shows how to use the program
+ * Here we convert 1650dkk to EUR 
+ */
 function help () {
   console.log(
     [
@@ -20,6 +24,10 @@ function help () {
 
 const spinner = ora('Fetching exchange data..');
 
+/**
+ * Get the result of convertion from currency
+ * Print the result
+ */
 async function start (opts) {
   try {
     const {amount, from, to} = opts;
@@ -41,6 +49,7 @@ if (argv.indexOf('--help') !== - 1) {
 
 spinner.start();
 
+//Initialise param of opts for the convertion
 const opts = {
   'amount': argv[0] || 1,
   'from': (argv[1] || 'USD').toUpperCase(),

@@ -7,7 +7,19 @@ const CURRENCY_BITCOIN = 'BTC';
 
 const isAnyBTC = (from, to) => [from, to].includes(CURRENCY_BITCOIN);
 
+/**
+ * convert money to money
+ * Here we convert 1 USD to BTC
+ * @param  {opts}
+ * @return money.convert(amount, conversionOpts)
+ */
 module.exports = async opts => {
+
+/**
+ * amount = number that we want to convert
+ * from = converts from 
+ * to = converts to
+ */
   const {amount = 1, from = 'USD', to = CURRENCY_BITCOIN} = opts;
   const promises = [];
   let base = from;
@@ -15,18 +27,18 @@ module.exports = async opts => {
   const anyBTC = isAnyBTC(from, to);
 
   if (anyBTC) {
-    base = from === CURRENCY_BITCOIN ? to : from;
-    promises.push(axios(BLOCKCHAIN_URL));
+    base = from === CURRENCY_BITCOIN ? to : from; //if base is BTC then to else from
+    promises.push(axios(BLOCKCHAIN_URL)); //fill promises with the json in the blockchain_url
   }
 
-  promises.unshift(axios(`${RATES_URL}?base=${base}`));
+  promises.unshift(axios(`${RATES_URL}?base=${base}`)); // get the rates depending on the base
 
   try {
     const responses = await Promise.all(promises);
     const [rates] = responses;
 
-    money.base = rates.data.base;
-    money.rates = rates.data.rates;
+    money.base = rates.data.base; 
+    money.rates = rates.data.rates; 
 
     const conversionOpts = {
       from,
